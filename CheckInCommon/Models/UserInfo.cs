@@ -47,7 +47,7 @@ namespace CheckIn.Common.Models
             set;
         }
         [MaxLength(100)]
-        
+
         public string Token
         {
             get;
@@ -65,5 +65,23 @@ namespace CheckIn.Common.Models
             get;
             set;
         }
+
+        public DateTime SendSMSDate
+        {
+            get;
+            set;
+        }
+        public int SendSMSTimes
+        {
+            get;
+            set;
+        }
+        public int Right
+        {
+            get;
+            set;
+        }
+
+
     }
 }
