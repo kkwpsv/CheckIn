@@ -9,6 +9,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using CheckIn.Common.Models;
 using MySQL.Data.EntityFrameworkCore.Extensions;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace CheckIn.Manager
 {
@@ -30,8 +35,15 @@ namespace CheckIn.Manager
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
-            services.AddMvc();
+            services.AddMvc(options =>
+            {
+                options.Filters.Add(new AuthorizeFilter(new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build()));
+            });
             services.AddDbContext<CheckInContext>(options => options.UseMySQL(Configuration.GetConnectionString("MySql")));
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("RightOver2", policy => policy.RequireAssertion(context => context.User.HasClaim(c => (c.Type == "Right" && c.ValueType == ClaimValueTypes.Integer32 && int.TryParse(c.Value, out int v) && v > 2))));
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -51,7 +63,14 @@ namespace CheckIn.Manager
             }
 
             app.UseStaticFiles();
-
+            app.UseCookieAuthentication(new CookieAuthenticationOptions
+            {
+                AuthenticationScheme = "MyCookieMiddlewareInstance",
+                LoginPath = new PathString("/Login"),
+                AccessDeniedPath = new PathString("/Login/Denied"),
+                AutomaticAuthenticate = true,
+                AutomaticChallenge = true
+            });
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
