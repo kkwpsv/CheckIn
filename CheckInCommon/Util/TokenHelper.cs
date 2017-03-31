@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Security.Cryptography;
 using System.Text;
 
-namespace CheckIn.API
+namespace CheckIn.Common.Util
 {
     public static class TokenHelper
     {
@@ -22,7 +21,7 @@ namespace CheckIn.API
                 var value = avaliable[random.Next(0, avaliable.Length)];
                 token[i] = value;
             }
-            var deviceidmd5 = MD5(deviceid);
+            var deviceidmd5 = MD5Helper.MD5Lower(deviceid);
 
             for (int i = 1; i < 16; i += 2)
             {
@@ -32,16 +31,7 @@ namespace CheckIn.API
             return new string(token);
 
         }
-        private static string MD5(string str)
-        {
-            using (IncrementalHash hasher = IncrementalHash.CreateHash(HashAlgorithmName.MD5))
-            {
-                hasher.AppendData(Encoding.Unicode.GetBytes(str));
-                byte[] hash = hasher.GetHashAndReset();
-                return BitConverter.ToString(hash).Replace("-", "");
-            }
 
-        }
 
     }
 }

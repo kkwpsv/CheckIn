@@ -36,6 +36,7 @@ namespace CheckIn.API
                 options.SerializerSettings.ContractResolver = new DefaultContractResolver();
             });
             services.AddDbContext<CheckInContext>(options => options.UseMySQL(Configuration.GetConnectionString("MySql")));
+            services.AddSession();
 
         }
 
@@ -49,7 +50,9 @@ namespace CheckIn.API
             //{
             //    route.MapRoute("defualt", "{controller}/{action}/");
             //});
+            app.UseSession();
             app.UseMvc();
+
         }
     }
 }
