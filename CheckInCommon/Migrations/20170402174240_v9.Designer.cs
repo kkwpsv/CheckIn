@@ -8,9 +8,10 @@ using CheckIn.Common.Models;
 namespace CheckIn.Common.Migrations
 {
     [DbContext(typeof(CheckInContext))]
-    partial class CheckInContextModelSnapshot : ModelSnapshot
+    [Migration("20170402174240_v9")]
+    partial class v9
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.1");

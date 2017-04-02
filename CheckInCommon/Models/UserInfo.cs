@@ -53,8 +53,7 @@ namespace CheckIn.Common.Models
             get;
             set;
         }
-        [MaxLength(100)]
-        public string HeadImage
+        public byte[] HeadImage
         {
             get;
             set;

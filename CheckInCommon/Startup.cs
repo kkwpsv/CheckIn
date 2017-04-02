@@ -14,7 +14,7 @@ namespace CheckIn.Common
         public void ConfigureServices(IServiceCollection services)
         {
 
-            //services.AddDbContext<CheckInContext>(options => options.UseMySQL("server=tellyouwhat.cn;userid=root;pwd=db499759;port=3306;database=checkin;sslmode=none;"));
+            services.AddDbContext<CheckInContext>(options => options.UseMySQL("server=tellyouwhat.cn;userid=root;pwd=db499759;port=3306;database=checkin;sslmode=none;"));
 
         }
     }

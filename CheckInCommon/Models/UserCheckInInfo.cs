@@ -14,8 +14,8 @@ namespace CheckIn.Common.Models
             get;
             set;
         }
-        [MaxLength(11)]
-        public string EmployeeID
+
+        public int UserID
         {
             get;
             set;
@@ -37,6 +37,11 @@ namespace CheckIn.Common.Models
             set;
         }
         public DateTime OriCheckOutTime
+        {
+            get;
+            set;
+        }
+        public bool HasCheckOut
         {
             get;
             set;
