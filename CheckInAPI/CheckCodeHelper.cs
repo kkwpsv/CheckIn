@@ -53,6 +53,7 @@ namespace CheckIn.API
             }
             ms = new MemoryStream();
             Img.Save(ms, ImageFormat.Jpeg);
+            ms.Flush();
             g.Dispose();
             Img.Dispose();
             return (ms, code);

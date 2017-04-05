@@ -15,7 +15,7 @@ using CheckIn.Common.Util;
 namespace CheckIn.API.Controllers
 {
     [Route("[controller]/[action]")]
-    public class CheckInController : Controller
+    public class CheckInController :Controller
     {
         private CheckInContext context;
 
@@ -89,6 +89,39 @@ namespace CheckIn.API.Controllers
                 return new { result = -1, message = "内部错误" };
             }
         }
+
+        [HttpGet]
+        public dynamic AutoCheckIn(int hour, int minute, int second)
+        {
+            try
+            {
+                if (HttpContext.Session.TryGetValue("userid", out var value))
+                {
+                    var userid = (value[0] << 24) + (value[1] << 16) + (value[2] << 8) + value[3];
+                    var checkininfo = context.UserCheckInInfo;
+                    if (checkininfo.Where(x => x.CheckInTime.Date == DateTime.Now.Date).Count() != 0)
+                    {
+                        return new { result = -2, message = "今天已经签到" };
+                    }
+                    else
+                    {
+                        checkininfo.Add(new UserCheckInInfo
+                        {
+                            UserID = userid,
+                            CheckInTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, hour, minute, second),
+                            OriCheckInTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, hour, minute, second),
+                            HasCheckOut = false,
+                        });
+                    }
+                }
+                return new { result = 0, message = "Session异常" };
+            }
+            catch
+            {
+                return new { result = -1, message = "内部错误" };
+            }
+        }
+
 
         [HttpGet]
         public dynamic AutoCheckOut(int checkinid, int hour, int minute, int second)

@@ -15,7 +15,7 @@ using CheckIn.Common.Util;
 namespace CheckIn.API.Controllers
 {
     [Route("[controller]/[action]")]
-    public class UserController : Controller
+    public class UserController :Controller
     {
         private CheckInContext context;
 
@@ -61,8 +61,10 @@ namespace CheckIn.API.Controllers
                 var result = CheckCodeHelper.GetCheckCode();
                 var image = result.image;
                 image.Seek(0, SeekOrigin.Begin);
+                var bytes = new byte[image.Length];
+                image.Read(bytes, 0, bytes.Length);
                 HttpContext.Session.Set("checkcode", Encoding.ASCII.GetBytes(result.text.ToLower()));
-                return new { result = 1, image = image };
+                return new { result = 1, image = bytes };
             }
             catch
             {
