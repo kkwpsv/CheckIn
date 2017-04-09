@@ -34,7 +34,7 @@ namespace CheckIn.API.Controllers
                 {
                     var userid = (value[0] << 24) + (value[1] << 16) + (value[2] << 8) + value[3];
                     var checkininfo = context.UserCheckInInfo;
-                    if (checkininfo.Where(x => x.CheckInTime.Date == DateTime.Now.Date).Count() != 0)
+                    if (checkininfo.Where(x => x.CheckInTime.Date == DateTime.Now.Date && x.UserID == userid).Count() != 0)
                     {
                         return new { result = -2, message = "今天已经签到" };
                     }
@@ -99,7 +99,7 @@ namespace CheckIn.API.Controllers
                 {
                     var userid = (value[0] << 24) + (value[1] << 16) + (value[2] << 8) + value[3];
                     var checkininfo = context.UserCheckInInfo;
-                    if (checkininfo.Where(x => x.CheckInTime.Date == DateTime.Now.Date).Count() != 0)
+                    if (checkininfo.Where(x => x.CheckInTime.Date == DateTime.Now.Date && x.UserID == userid).Count() != 0)
                     {
                         return new { result = -2, message = "今天已经签到" };
                     }

@@ -34,7 +34,7 @@ namespace CheckIn.API.Controllers
                     return new { result = -1, message = "内部错误" };
                 }
                 var user = context.UserInfo.Where(x => (x.EmployeeID == username && x.Password == password) || (x.MobilephoneNumber == username && x.Password == password)).FirstOrDefault();
-                var result = user == null;
+                var result = user != null;
                 if (!result)
                 {
                     return new { result = -2, message = "用户名或密码错误" };
@@ -90,10 +90,7 @@ namespace CheckIn.API.Controllers
                     }
                     var user = users.First();
                     var userid = user.UserID;
-
-
                     HttpContext.Session.Remove("checkcode");
-
                     if (user.SendSMSDate.Date != DateTime.Now.Date)
                     {
                         user.SendSMSTimes = 0;
@@ -179,7 +176,7 @@ namespace CheckIn.API.Controllers
                     return new { result = -1, message = "内部错误" };
                 }
                 var user = context.UserInfo.Where(x => x.EmployeeID == username || x.MobilephoneNumber == username).FirstOrDefault();
-                var result = user == null;
+                var result = user != null;
                 if (!result)
                 {
                     return new { result = 0, message = "状态异常" };
@@ -243,6 +240,10 @@ namespace CheckIn.API.Controllers
         {
             try
             {
+                if (String.IsNullOrEmpty(employeeid) || String.IsNullOrEmpty(name) || String.IsNullOrEmpty(phonenumber) || String.IsNullOrEmpty(email) || context.DepartmentInfo.Where(x => x.DepartmentID == departmentid).Count() == 0)
+                {
+                    return new { result = -1, message = "内部错误" };
+                }
                 if (HttpContext.Session.TryGetValue("userid", out var value))
                 {
                     var userid = (value[0] << 24) + (value[1] << 16) + (value[2] << 8) + value[3];
