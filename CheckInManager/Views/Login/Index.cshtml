@@ -1,7 +1,48 @@
-
+﻿
 @{
     ViewData["Title"] = "Index";
 }
 
-<h2>Index</h2>
+<h2>登录</h2>
+<div align="center" style="padding-right:80px">
 
+
+        <form method="post" action="~/Login/Login">
+            <table style="font-size:20px;">
+
+
+                <tr>
+                    <td align="center">
+                        工号:
+                    </td>
+                    <td>
+                        <input type="text" name="EmployeeID">
+                    </td>
+                </tr>
+
+                <tr>
+                    <td align="center">
+                        密码:
+                    </td>
+                    <td>
+                        <input type="password" name="Password">
+                    </td>
+                </tr>
+                <tr>
+                    <td><br></td>
+                    <td align="center" style="padding-right:80px">
+                        <br>
+                        <input type="submit" value="登录">
+                    </td>
+                </tr>
+            </table>
+            <input type="hidden" name="ReturnUrl" value="@ViewData["ReturnUrl"]" />
+            
+
+        </form>
+    
+
+
+
+
+</div>

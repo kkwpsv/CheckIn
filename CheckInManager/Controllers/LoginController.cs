@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using CheckIn.Common.Models;
+using CheckIn.Common.Util;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.Authentication;
 using Microsoft.AspNetCore.Mvc;
@@ -25,36 +26,28 @@ namespace CheckInManager.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> Login(string username, string password, string returnurl)
+        public async Task<IActionResult> Login(string EmployeeID, string Password, string ReturnUrl)
         {
-            var users = context.UserInfo.Where(x => x.EmployeeID == username && x.Password == password);
+            var users = context.UserInfo.Where(x => x.EmployeeID == EmployeeID && x.Password == MD5Helper.PasswordMD5(Password));
             if (users.Count() > 0)
             {
                 var user = users.First();
                 if (user.Right > 0)
                 {
-                    List<Claim> claims = new List<Claim>
-                    {
-                        new Claim("Right", user.Right.ToString(), ClaimValueTypes.Integer32)
-                    };
-                    var identity = new ClaimsIdentity(claims);
 
 
-                    await HttpContext.Authentication.SignInAsync("MyCookieMiddlewareInstance", new ClaimsPrincipal(identity),
+
+                    await HttpContext.Authentication.SignInAsync("MyCookieMiddlewareInstance", new ClaimsPrincipal(),
                     new AuthenticationProperties
                     {
                         ExpiresUtc = DateTime.UtcNow.AddMinutes(20),
                     });
-                    return LocalRedirect(returnurl);
+                    return LocalRedirect(ReturnUrl);
                 }
             }
-            return Content(@"<script language=""javascript""> alert(""登录失败"");document.location.href=""/Index?returnurl=" + returnurl + @""";</script>");
+            return Content(@"<script>alert(""登录失败"");window.location.href=document.referrer;</script>", "text/html; charset=utf-8");
 
         }
-        [HttpGet]
-        public IActionResult Denied(string returnurl = null)
-        {
-            return Content(@"<script language=""javascript""> alert(""你没有权限进行此操作"");window.location.href=document.referrer;"";</script>");
-        }
+
     }
 }
