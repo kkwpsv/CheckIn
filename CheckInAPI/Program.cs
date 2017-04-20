@@ -19,6 +19,9 @@ namespace CheckIn.API
                 .UseStartup<Startup>()
                 .UseApplicationInsights()
                 .UseUrls("http://localhost:20000")
+#if DEBUG
+                .UseUrls("http://192.168.1.2:20000")
+#endif
                 .Build();
 
             host.Run();

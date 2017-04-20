@@ -11,6 +11,8 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using CheckIn.API;
 using CheckIn.Common.Util;
+using Microsoft.AspNetCore.Http;
+using System.Net;
 
 namespace CheckIn.API.Controllers
 {
@@ -71,6 +73,28 @@ namespace CheckIn.API.Controllers
                 return new { result = -1, message = "内部错误" };
             }
         }
+        [HttpGet]
+        public dynamic GetHeadImage(string username)
+        {
+            try
+            {
+                if (String.IsNullOrEmpty(username))
+                {
+                    return new { result = -1, message = "内部错误" };
+                }
+                var user = context.UserInfo.Where(x => x.EmployeeID == username || x.MobilephoneNumber == username).FirstOrDefault();
+                if (user != null)
+                {
+                    return new { result = 1, image = HeadImageHelper.GetHeadImage(user.UserID) };
+                }
+                return new { result = -2, message = "该用户不存在" };
+            }
+            catch
+            {
+                return new { result = -1, message = "内部错误" };
+            }
+        }
+
 
         [HttpGet]
         public async Task<dynamic> SendSMS(string checkcode, string phonenumber)
@@ -109,7 +133,7 @@ namespace CheckIn.API.Controllers
                         var currenttime = DateTime.Now.Ticks;
                         var data = new byte[] { (byte)(code >> 8), (byte)code, (byte)(currenttime >> 56), (byte)(currenttime >> 48), (byte)(currenttime >> 40), (byte)(currenttime >> 32), (byte)(currenttime >> 24), (byte)(currenttime >> 16), (byte)(currenttime >> 8), (byte)currenttime, (byte)(userid >> 24), (byte)(userid >> 16), (byte)(userid >> 8), (byte)(userid) };
                         HttpContext.Session.Set("smscode", data);
-                        return new { result = true };
+                        return new { result = 1 };
                     }
                     else
                     {
@@ -222,7 +246,7 @@ namespace CheckIn.API.Controllers
                             departmentname = context.DepartmentInfo.Where(x => x.DepartmentID == user.DepartmentID).FirstOrDefault()?.DepartmentName ?? "",
                             phonenumber = user.MobilephoneNumber,
                             email = user.Email,
-                            headimage = user.HeadImage
+                            headimage = HeadImageHelper.GetHeadImage(userid)
                         };
                     }
                 }
@@ -236,7 +260,7 @@ namespace CheckIn.API.Controllers
         }
 
         [HttpPost]
-        public dynamic UpdateUserInfo(string employeeid, string name, int departmentid, string phonenumber, string email, byte[] headimage)
+        public dynamic UpdateUserInfo(string employeeid, string name, int departmentid, string phonenumber, string email, IFormFile headimage)
         {
             try
             {
@@ -247,6 +271,15 @@ namespace CheckIn.API.Controllers
                 if (HttpContext.Session.TryGetValue("userid", out var value))
                 {
                     var userid = (value[0] << 24) + (value[1] << 16) + (value[2] << 8) + value[3];
+                    byte[] buffer = null;
+                    if (headimage != null)
+                    {
+                        var length = (int)headimage.Length;
+                        buffer = new byte[length];
+                        headimage.OpenReadStream().Read(buffer, 0, length);
+                    }
+
+
                     var user = context.UserInfo.Where(x => x.UserID == userid).FirstOrDefault();
                     if (user != null)
                     {
@@ -255,8 +288,9 @@ namespace CheckIn.API.Controllers
                         user.DepartmentID = departmentid;
                         user.MobilephoneNumber = phonenumber;
                         user.Email = email;
-                        user.HeadImage = headimage;
+                        // user.HeadImage = buffer;
                         context.SaveChanges();
+                        HeadImageHelper.SaveHeadImage(userid, buffer);
                         return new { result = 1 };
                     }
                 }

@@ -8,9 +8,10 @@ using CheckIn.Common.Models;
 namespace CheckIn.Common.Migrations
 {
     [DbContext(typeof(CheckInContext))]
-    partial class CheckInContextModelSnapshot : ModelSnapshot
+    [Migration("20170415161459_v10")]
+    partial class v10
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.1");
@@ -85,6 +86,9 @@ namespace CheckIn.Common.Migrations
 
                     b.Property<string>("EmployeeID")
                         .HasMaxLength(11);
+
+                    b.Property<byte[]>("HeadImage")
+                        .HasMaxLength(8000);
 
                     b.Property<string>("MobilephoneNumber")
                         .HasMaxLength(11);

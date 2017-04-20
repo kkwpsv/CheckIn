@@ -17,6 +17,7 @@ namespace CheckIn.Manager
                 .UseIISIntegration()
                 .UseStartup<Startup>()
                 .UseApplicationInsights()
+                .UseUrls("http://localhost:30000")
                 .Build();
 
             host.Run();

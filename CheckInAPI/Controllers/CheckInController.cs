@@ -112,6 +112,8 @@ namespace CheckIn.API.Controllers
                             OriCheckInTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, hour, minute, second),
                             HasCheckOut = false,
                         });
+                        context.SaveChanges();
+                        return new { result = 1 };
                     }
                 }
                 return new { result = 0, message = "Session异常" };
@@ -170,7 +172,7 @@ namespace CheckIn.API.Controllers
                     }
                     else
                     {
-                        tomodify.HasCheckOut = true;
+                        //tomodify.HasCheckOut = true;
                         tomodify.CheckInTime = new DateTime(tomodify.OriCheckInTime.Year, tomodify.OriCheckInTime.Month, tomodify.OriCheckInTime.Day, hour, minute, second);
                         context.SaveChanges();
                         return new { result = 1 };
@@ -193,7 +195,7 @@ namespace CheckIn.API.Controllers
                 {
                     var userid = (value[0] << 24) + (value[1] << 16) + (value[2] << 8) + value[3];
                     var checkininfo = context.UserCheckInInfo;
-                    var tomodify = checkininfo.Where(x => x.UserID == userid && x.CheckInID == checkinid).FirstOrDefault();
+                    var tomodify = checkininfo.Where(x => x.UserID == userid && x.CheckInID == checkinid && x.HasCheckOut == true).FirstOrDefault();
                     if (tomodify == null)
                     {
                         return new { result = -2, message = "找不到该记录" };
