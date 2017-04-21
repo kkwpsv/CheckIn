@@ -18,6 +18,13 @@ namespace CheckIn.Manager.Controllers
             protected set;
         } = 1;
 
+        protected CheckInContext context;
+
+        public ControllerWithAuthorize(CheckInContext context)
+        {
+            this.context = context;
+        }
+
         public sealed override void OnActionExecuting(ActionExecutingContext context)
         {
             try

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CheckIn.Common.Models;
+using CheckIn.Common.Util;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,9 +11,13 @@ namespace CheckIn.Manager.Controllers
 {
     public class HomeController :ControllerWithAuthorize
     {
+        public HomeController(CheckInContext context) : base(context)
+        {
+        }
+
         public IActionResult Index()
         {
-            ViewData["AbnormalRecordCount"] = 10;
+            ViewData["AbnormalRecordCount"] = RecordConfirmHelper.GetAbnormalRecords(context).Count();
             return View();
         }
 
