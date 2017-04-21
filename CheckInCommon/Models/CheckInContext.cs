@@ -33,6 +33,11 @@ namespace CheckIn.Common.Models
             get;
             set;
         }
+        public DbSet<LocationInfo> LocationInfo
+        {
+            get;
+            set;
+        }
 
     }
 }

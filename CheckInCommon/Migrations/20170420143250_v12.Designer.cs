@@ -8,9 +8,10 @@ using CheckIn.Common.Models;
 namespace CheckIn.Common.Migrations
 {
     [DbContext(typeof(CheckInContext))]
-    partial class CheckInContextModelSnapshot : ModelSnapshot
+    [Migration("20170420143250_v12")]
+    partial class v12
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.1");
@@ -74,15 +75,9 @@ namespace CheckIn.Common.Migrations
 
                     b.Property<bool>("HasCheckOut");
 
-                    b.Property<bool>("HasConfirmed");
-
                     b.Property<DateTime>("OriCheckInTime");
 
                     b.Property<DateTime>("OriCheckOutTime");
-
-                    b.Property<string>("Reason1");
-
-                    b.Property<string>("Reason2");
 
                     b.Property<int>("UserID");
 

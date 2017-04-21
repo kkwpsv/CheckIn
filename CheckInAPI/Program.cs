@@ -20,7 +20,7 @@ namespace CheckIn.API
                 .UseApplicationInsights()
                 .UseUrls("http://localhost:20000")
 #if DEBUG
-                .UseUrls("http://192.168.1.2:20000")
+               // .UseUrls("http://192.168.1.2:20000")
 #endif
                 .Build();
 

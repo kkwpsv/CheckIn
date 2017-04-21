@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -42,6 +43,28 @@ namespace CheckIn.Common.Models
             set;
         }
         public bool HasCheckOut
+        {
+            get;
+            set;
+        }
+        public string Reason1
+        {
+            get;
+            set;
+        }
+        public string Reason2
+        {
+            get;
+            set;
+        }
+
+        public bool HasConfirmed
+        {
+            get;
+            set;
+        }
+        [NotMapped]
+        public string AbnormalCause
         {
             get;
             set;

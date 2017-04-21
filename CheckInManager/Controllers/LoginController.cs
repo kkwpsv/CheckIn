@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using CheckIn.Common.Models;
 using CheckIn.Common.Util;
+using CheckIn.Manager.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.Authentication;
 using Microsoft.AspNetCore.Mvc;
@@ -20,33 +21,30 @@ namespace CheckInManager.Controllers
             this.context = context;
         }
         [HttpGet]
-        public IActionResult Index(string returnurl = null)
+        public IActionResult Index()
         {
-            ViewData["ReturnUrl"] = returnurl;
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> Login(string EmployeeID, string Password, string ReturnUrl)
+        public IActionResult Index(LoginModel model)
         {
-            var users = context.UserInfo.Where(x => x.EmployeeID == EmployeeID && x.Password == MD5Helper.PasswordMD5(Password));
-            if (users.Count() > 0)
+            if (ModelState.IsValid)
             {
-                var user = users.First();
-                if (user.Right > 0)
+                var user = context.UserInfo.Where(x => x.EmployeeID == model.EmployeeID && x.Password == MD5Helper.PasswordMD5(model.Password)).FirstOrDefault();
+                if (user != null && user.Right > 0)
                 {
-
-
-
-                    await HttpContext.Authentication.SignInAsync("MyCookieMiddlewareInstance", new ClaimsPrincipal(),
-                    new AuthenticationProperties
-                    {
-                        ExpiresUtc = DateTime.UtcNow.AddMinutes(20),
-                    });
-                    return LocalRedirect(ReturnUrl);
+                    HttpContext.Session.Set("User", SessionHelper.ObjectToBytes(user));
+                    return RedirectToAction("Index", "Home");
                 }
+                ModelState.AddModelError("", "ÓÃ»§Ãû»òÃÜÂë´íÎó¡£");
+                return View(model);
             }
-            return Content(@"<script>alert(""µÇÂ¼Ê§°Ü"");window.location.href=document.referrer;</script>", "text/html; charset=utf-8");
-
+            return View();
+        }
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Remove("User");
+            return View();
         }
 
     }
