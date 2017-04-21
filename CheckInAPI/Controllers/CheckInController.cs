@@ -11,6 +11,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using CheckIn.API;
 using CheckIn.Common.Util;
+using System.Net;
 
 namespace CheckIn.API.Controllers
 {
@@ -157,7 +158,7 @@ namespace CheckIn.API.Controllers
         }
 
         [HttpGet]
-        public dynamic ModifyCheckIn(int checkinid, int hour, int minute, int second)
+        public dynamic ModifyCheckIn(int checkinid, int hour, int minute, int second, string reason)
         {
             try
             {
@@ -174,6 +175,7 @@ namespace CheckIn.API.Controllers
                     {
                         //tomodify.HasCheckOut = true;
                         tomodify.CheckInTime = new DateTime(tomodify.OriCheckInTime.Year, tomodify.OriCheckInTime.Month, tomodify.OriCheckInTime.Day, hour, minute, second);
+                        tomodify.Reason1 = WebUtility.UrlDecode(reason);
                         context.SaveChanges();
                         return new { result = 1 };
                     }
@@ -187,7 +189,7 @@ namespace CheckIn.API.Controllers
         }
 
         [HttpGet]
-        public dynamic ModifyCheckOut(int checkinid, int hour, int minute, int second)
+        public dynamic ModifyCheckOut(int checkinid, int hour, int minute, int second, string reason)
         {
             try
             {
@@ -204,6 +206,7 @@ namespace CheckIn.API.Controllers
                     {
                         tomodify.HasCheckOut = true;
                         tomodify.CheckOutTime = new DateTime(tomodify.OriCheckOutTime.Year, tomodify.OriCheckOutTime.Month, tomodify.OriCheckOutTime.Day, hour, minute, second);
+                        tomodify.Reason2 = WebUtility.UrlDecode(reason);
                         context.SaveChanges();
                         return new { result = 1 };
                     }

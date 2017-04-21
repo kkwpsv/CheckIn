@@ -17,62 +17,53 @@ using System.Security.Claims;
 
 namespace CheckIn.Manager
 {
-	public class Startup
-	{
-		public Startup(IHostingEnvironment env)
-		{
-			var builder = new ConfigurationBuilder()
-			    .SetBasePath(env.ContentRootPath)
-			    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-			    .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
-			    .AddEnvironmentVariables();
-			Configuration = builder.Build();
-		}
+    public class Startup
+    {
+        public Startup(IHostingEnvironment env)
+        {
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(env.ContentRootPath)
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+                .AddEnvironmentVariables();
+            Configuration = builder.Build();
+        }
 
-		public IConfigurationRoot Configuration { get; }
+        public IConfigurationRoot Configuration { get; }
 
-		// This method gets called by the runtime. Use this method to add services to the container.
-		public void ConfigureServices(IServiceCollection services)
-		{
-			// Add framework services.
-			services.AddMvc(options =>
-			{
-				options.Filters.Add(new AuthorizeFilter(new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build()));
-			});
-			services.AddDbContext<CheckInContext>(options => options.UseMySQL(Configuration.GetConnectionString("MySql")));
-		}
+        // This method gets called by the runtime. Use this method to add services to the container.
+        public void ConfigureServices(IServiceCollection services)
+        {
+            // Add framework services.
+            services.AddMvc();
+            services.AddDbContext<CheckInContext>(options => options.UseMySQL(Configuration.GetConnectionString("MySql")));
+            services.AddSession();
+        }
 
-		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-		public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
-		{
-			loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-			loggerFactory.AddDebug();
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        {
+            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
+            loggerFactory.AddDebug();
 
-			if (env.IsDevelopment())
-			{
-				app.UseDeveloperExceptionPage();
-				app.UseBrowserLink();
-			}
-			else
-			{
-				app.UseExceptionHandler("/Home/Error");
-			}
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+                app.UseBrowserLink();
+            }
+            else
+            {
+                app.UseExceptionHandler("/Home/Error");
+            }
 
-			app.UseStaticFiles();
-			app.UseCookieAuthentication(new CookieAuthenticationOptions
-			{
-				AuthenticationScheme = "MyCookieMiddlewareInstance",
-				LoginPath = new PathString("/Login"),
-				AccessDeniedPath = new PathString("/Login"),
-				AutomaticAuthenticate = true,
-				AutomaticChallenge = true
-			});
-			app.UseMvc(routes =>
-			{
-				routes.MapRoute(
-			name: "default",
-			template: "{controller=Home}/{action=Index}/{id?}");
-			});
-		}
-	}
+            app.UseStaticFiles();
+            app.UseSession();
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+            name: "default",
+            template: "{controller=Home}/{action=Index}/{id?}");
+            });
+        }
+    }
 }

@@ -1,48 +1,30 @@
-﻿
-@{
-    ViewData["Title"] = "Index";
+﻿@{
+    ViewData["Title"] = "登录";
 }
-
-<h2>登录</h2>
-<div align="center" style="padding-right:80px">
-
-
-        <form method="post" action="~/Login/Login">
-            <table style="font-size:20px;">
-
-
-                <tr>
-                    <td align="center">
-                        工号:
-                    </td>
-                    <td>
-                        <input type="text" name="EmployeeID">
-                    </td>
-                </tr>
-
-                <tr>
-                    <td align="center">
-                        密码:
-                    </td>
-                    <td>
-                        <input type="password" name="Password">
-                    </td>
-                </tr>
-                <tr>
-                    <td><br></td>
-                    <td align="center" style="padding-right:80px">
-                        <br>
-                        <input type="submit" value="登录">
-                    </td>
-                </tr>
-            </table>
-            <input type="hidden" name="ReturnUrl" value="@ViewData["ReturnUrl"]" />
-            
-
-        </form>
-    
+@model LoginModel
 
 
 
 
-</div>
+<form method="post" asp-controller="Login" asp-action="Index" style="max-width:300px;padding:15px;margin:0 auto; text-align:center">
+    <h2 style="text-align:left">登录</h2>
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="form-group has-feedback">
+        <input type="text" class="form-control" name="EmployeeID" placeholder="工号" asp-for="EmployeeID" />
+        <span class="glyphicon glyphicon-user form-control-feedback"></span>
+    </div>
+    <div class="form-group has-feedback">
+        <input type="password" class="form-control" name="Password" placeholder="密码" asp-for="Password" />
+        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+    </div>
+    <button type="submit" class="btn btn-lg btn-primary btn-block">登录</button>
+
+
+</form>
+
+
+
+
+
+
+

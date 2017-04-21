@@ -7,10 +7,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CheckIn.Manager.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController :ControllerWithAuthorize
     {
         public IActionResult Index()
         {
+            ViewData["AbnormalRecordCount"] = 10;
             return View();
         }
 
@@ -28,9 +29,9 @@ namespace CheckIn.Manager.Controllers
         //    return View();
         //}
 
-        //public IActionResult Error()
-        //{
-        //    return View();
-        //}
+        public IActionResult Error()
+        {
+            return View();
+        }
     }
 }
