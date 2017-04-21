@@ -1,0 +1,67 @@
+﻿@{
+    ViewData["Title"] = "异常记录";
+}
+@using CheckIn.Common.Models
+@using PagedList.Core
+@using PagedList.Core.Mvc
+
+
+
+@model IPagedList<AbnormalRecordModel>
+
+<div>
+    <h1 class="page-header">异常签到记录</h1>
+    <table class="table table-striped table-bordered">
+        <tr>
+            <th>工号</th>
+            <th>姓名</th>
+            <th>签到时间</th>
+            <th>签出时间</th>
+            <th>原始签到时间</th>
+            <th>原始签出时间</th>
+            <th>签到时间修改原因</th>
+            <th>签出时间修改原因</th>
+            <th>异常原因</th>
+            <th>操作</th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td><text>@item.EmployeeID</text></td>
+                <td><text>@item.Name</text></td>
+                <td><text>@item.CheckInTime.ToString("yyyy-MM-dd HH:mm:ss")</text></td>
+                <td><text>@(item.HasCheckOut ? item.CheckOutTime.ToString("yyyy-MM-dd HH:mm:ss") : "")</text></td>
+                <td><text>@item.OriCheckInTime.ToString("yyyy-MM-dd HH:mm:ss")</text></td>
+                <td><text>@(item.HasCheckOut ? item.OriCheckOutTime.ToString("yyyy-MM-dd HH:mm:ss") : "")</text></td>
+                <td><text>@item.Reason1</text></td>
+                <td><text>@item.Reason2</text></td>
+                <td><text>@item.AbnormalCause</text></td>
+                <td><button type="button" class="btn btn-success" onclick="ConfirmCheckIn(@item.CheckInID,this)">确认</button></td>
+            </tr>
+
+        }
+    </table>
+    <pager list="Model" options="@PagedListRenderOptions.TwitterBootstrapPager" asp-action="Index" asp-controller="AbnormalRecord"></pager>
+</div>
+
+
+@section Scripts
+{
+    <script>
+        function ConfirmCheckIn(id,button) {
+            $.get("/AbnormalRecord/Confirm?CheckInID=" + id, function (result) {
+                if (result == "ok")
+                {
+                    alert("确认成功");
+                    var todel = button.parentNode.parentNode;
+                    todel.parentNode.removeChild(todel);
+                }
+                else
+                {
+                    alert("失败，请重试")
+                }
+            })
+        }
+    </script>
+
+}

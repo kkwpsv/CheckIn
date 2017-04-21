@@ -1,27 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CheckIn.Common.Models
+namespace CheckIn.Manager.Models
 {
-    public class UserCheckInInfo
+    public class AbnormalRecordModel
     {
-        [Key]
         public int CheckInID
         {
             get;
             set;
         }
-
-        public int UserID
+        public string EmployeeID
         {
             get;
             set;
         }
-
+        public string Name
+        {
+            get;
+            set;
+        }
         public DateTime CheckInTime
         {
             get;
@@ -42,11 +42,6 @@ namespace CheckIn.Common.Models
             get;
             set;
         }
-        public bool HasCheckOut
-        {
-            get;
-            set;
-        }
         public string Reason1
         {
             get;
@@ -57,8 +52,12 @@ namespace CheckIn.Common.Models
             get;
             set;
         }
-
-        public bool HasConfirmed
+        public string AbnormalCause
+        {
+            get;
+            set;
+        }
+        public bool HasCheckOut
         {
             get;
             set;

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CheckIn.Common.Models;
 using CheckIn.Common.Util;
+using CheckIn.Manager.Util;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

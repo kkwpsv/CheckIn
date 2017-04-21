@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 namespace CheckIn.Manager
 {
@@ -38,6 +39,7 @@ namespace CheckIn.Manager
             services.AddMvc();
             services.AddDbContext<CheckInContext>(options => options.UseMySQL(Configuration.GetConnectionString("MySql")));
             services.AddSession();
+            services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

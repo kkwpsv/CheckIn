@@ -44,7 +44,7 @@ namespace CheckInManager.Controllers
         public IActionResult Logout()
         {
             HttpContext.Session.Remove("User");
-            return View();
+            return RedirectToAction("Index", "Login");
         }
 
     }
