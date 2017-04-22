@@ -24,8 +24,11 @@ namespace CheckIn.Common.Util
         public static void SaveHeadImage(int userid, byte[] data)
         {
             EnsureDictionary();
+			if(data!=null)
+			{
+				File.WriteAllBytes($@"HeadImage/{userid}", data);
+			}
 
-            File.WriteAllBytes($@"HeadImage/{userid}", data);
         }
 
         private static void EnsureDictionary()
