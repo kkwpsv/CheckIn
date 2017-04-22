@@ -1,0 +1,39 @@
+﻿
+@{
+    ViewData["Title"] = "公司位置添加";
+}
+
+@model LocationModel
+
+<div>
+    <h1 class="page-header">公司位置添加</h1>
+    <button type="button" class="btn btn-link" onclick="window.open('http://api.map.baidu.com/lbsapi/getpoint/index.html','_blank')">百度地图坐标拾取系统</button>
+    <form asp-controller="Location" asp-action="Add" method="Post">
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <div class="form-group">
+            <label for="name">分公司名称</label>
+            <input type="text" class="form-control" asp-for="LocationName">
+        </div>
+        <div class="form-group">
+            <label for="name">坐标1</label>
+            <input type="text" class="form-control" asp-for="Location1">
+        </div>
+        <div class="form-group">
+            <label for="name">坐标2</label>
+            <input type="text" class="form-control" asp-for="Location2">
+        </div>
+        <div class="form-group">
+            <label for="name">坐标3</label>
+            <input type="text" class="form-control" asp-for="Location3">
+        </div>
+        <div class="form-group">
+            <label for="name">坐标4</label>
+            <input type="text" class="form-control" asp-for="Location4">
+        </div>
+        <button type="submit" class="btn btn-primary">添加</button>
+        <button type="reset" class="btn btn-primary">清空</button>
+    </form>
+
+</div>
+
+

@@ -1,82 +1,64 @@
 @{
-    ViewData["Title"] = "管理公司位置信息";
+    ViewData["Title"] = "公司位置管理";
 }
+@using CheckIn.Common.Models
+@using PagedList.Core
+@using PagedList.Core.Mvc
 
-<head>
-   <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-   <script src="/scripts/jquery.min.js"></script>
-   <script src="/bootstrap/js/bootstrap.min.js"></script>
-</head>
-<body>
 
-<table class="table table-hover">
-  <h1>公司位置编辑</h1>
-  <thead>
-    <tr>
-      <th>分公司名称</th>
-      <th>第一个坐标</th>
-      <th>第二个坐标</th>
-      <th>第三个坐标</th>
-      <th>第四个坐标</th>
-      <th>操作</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <input type="hidden" value="">
-      <td><input type="text" name="building_name" class="active" value="长安区食堂"/></td>
-      <td><input type="text" name="first_coordinate" value="108.881154,34.14793"/></td>
-      <td><input type="text" name="second_coordinate" value="108.881154,34.14793"/></td>
-      <td><input type="text" name="third_coordinate" value="108.881154,34.14793"/></td>
-      <td><input type="text" name="forth_coordinate" value="108.881154,34.14793"/></td>
-      <td><button type="submit" class="btn btn-primary">确认</button></td>
-    </tr>
-    <tr>
-      <input type="hidden" value="">
-      <td><input type="text" name="building_name" value="长安hahah"/></td>
-      <td><input type="text" name="first_coordinate" value="108.881154,34.14793"/></td>
-      <td><input type="text" name="second_coordinate" value="108.881154,34.14793"/></td>
-      <td><input type="text" name="third_coordinate" value="108.881154,34.14793"/></td>
-      <td><input type="text" name="forth_coordinate" value="108.881154,34.14793"/></td>
-      <td><button type="submit" class="btn btn-primary">确认</button></td>
-    </tr>
-    <tr>
-      <input type="hidden" value="">
-      <td><input type="text" name="building_name" value="长安lalal"/></td>
-      <td><input type="text" name="first_coordinate" value="108.881154,34.14793"/></td>
-      <td><input type="text" name="second_coordinate" value="108.881154,34.14793"/></td>
-      <td><input type="text" name="third_coordinate" value="108.881154,34.14793"/></td>
-      <td><input type="text" name="forth_coordinate" value="108.881154,34.14793"/></td>
-      <td><button type="submit" class="btn btn-primary">确认</button></td>
-    </tr>
-  </tbody>
-</table>
 
-    <div name="new location" > 
-        <div name="new location form" id="new location" class="pull-left">
-            <h1>新的办公地点</h1>
-            <button type="button" class="btn btn-link"><a href="http://api.map.baidu.com/lbsapi/getpoint/index.html" target="_blank">百度地图坐标拾取系统</a></button>
-            <form role="form">
-                <div class="form-group">
-                <label for="name">公司名称</label>
-                <input type="text" class="form-control" placeholder="文本输入">
-                <label for="name">第一个坐标</label>
-                <input type="text" class="form-control" placeholder="坐标输入">
-                <label for="name">第二个坐标</label>
-                <input type="text" class="form-control" placeholder="坐标输入">
-                <label for="name">第三个坐标</label>
-                <input type="text" class="form-control" placeholder="坐标输入">
-                <label for="name">第四个坐标</label>
-                <input type="text" class="form-control" placeholder="坐标输入">
-                </div>
-                <button type="submit" class="btn btn-primary">添加</button>
-                <button type="reset" class="btn btn-primary">清空</button>
-            </form>
-        </div>
-        <div class="pull-left" id="map">
-            <iframe style="padding:5px" width="900" height="800" src="http://api.map.baidu.com/lbsapi/getpoint/index.html"></iframe>
-        </div>
-    </div>
+@model IPagedList<LocationModel>
+
+<div class="container">
+    <h1 class="page-header">公司位置管理</h1>
+    <button type="button" class="btn btn-success" onclick="window.location.href='/Location/Add'">添加位置</button>
+    <table class="table table-hover">
+
+        <thead>
+            <tr>
+                <th>分公司名称</th>
+                <th>第一个坐标</th>
+                <th>第二个坐标</th>
+                <th>第三个坐标</th>
+                <th>第四个坐标</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td><text>@item.LocationName</text></td>
+                    <td><text>@item.Location1</text></td>
+                    <td><text>@item.Location2</text></td>
+                    <td><text>@item.Location3</text></td>
+                    <td><text>@item.Location4</text></td>
+                    <td><button type="button" class="btn btn-info" onclick="window.location.href='/Location/Edit?LocationID=@item.LocationID'">编辑</button><button type="button" class="btn btn-danger" onclick="Delete(@item.LocationID,this)">删除</button></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <pager list="Model" options="@PagedListRenderOptions.TwitterBootstrapPager" asp-action="Index" asp-controller="Location"></pager>
 </div>
 
-</body>
+
+
+
+@section Scripts
+{
+    <script>
+        function Delete(id, button) {
+            $.get("/Location/Delete?LocationID=" + id, function (result) {
+                if (result == "ok") {
+                    alert("删除成功");
+                    var todel = button.parentNode.parentNode;
+                    todel.parentNode.removeChild(todel);
+                }
+                else {
+                    alert("失败，请重试")
+                }
+            })
+        }
+    </script>
+
+}
