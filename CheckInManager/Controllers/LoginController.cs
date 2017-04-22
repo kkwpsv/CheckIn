@@ -41,6 +41,7 @@ namespace CheckInManager.Controllers
             }
             return View();
         }
+        [HttpGet]
         public IActionResult Logout()
         {
             HttpContext.Session.Remove("User");
