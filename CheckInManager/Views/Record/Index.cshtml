@@ -1,0 +1,118 @@
+﻿@{
+    ViewData["Title"] = "记录查询";
+}
+@using CheckIn.Common.Models
+@using PagedList.Core
+@using PagedList.Core.Mvc
+
+
+@model IPagedList<RecordModel>
+
+<div>
+    <h1 class="page-header">记录查询</h1>
+    <form class="form-inline" asp-action="Index" asp-controller="Record" method="get" onsubmit="return Check()">
+        <div class="form-group">
+            <div class="form-group">
+                <label>员工号</label>
+                <input type="text" class="form-control" name="EmployeeID" />
+            </div>
+            <div class="form-group">
+                <label>部门</label>
+                <select asp-items="ViewBag.SelectList" class="form-control" name="DepartmentID"></select>
+            </div>
+            <div class="form-group">
+                <label>起始日期</label>
+                <input type="date" class="form-control" name="StartDate" placeholder="2017-01-01" />
+            </div>
+            <div class="form-group">
+                <label>结束日期</label>
+                <input type="date" class="form-control" name="EndDate" placeholder="2017-01-01" />
+            </div>
+            <button type="submit" class="btn btn-default" onclick="Find()">查找</button>
+            <button type="submit" class="btn btn-default" onclick="Export()">导出</button>
+        </div>
+    </form>
+    <table class="table table-hover">
+        <tr>
+            <th>工号</th>
+            <th>姓名</th>
+            <th>部门</th>
+            <th>签到时间</th>
+            <th>签出时间</th>
+            <th>原始签到时间</th>
+            <th>原始签出时间</th>
+            <th>签到时间修改原因</th>
+            <th>签出时间修改原因</th>
+            <th>异常原因</th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            @if (item.IsNormal)
+            {
+                <tr class="success">
+                    <td><text>@item.EmployeeID</text></td>
+                    <td><text>@item.Name</text></td>
+                    <td><text>@item.DepartmentName</text></td>
+                    <td><text>@item.CheckInTime.ToString("yyyy-MM-dd HH:mm:ss")</text></td>
+                    <td><text>@(item.HasCheckOut ? item.CheckOutTime.ToString("yyyy-MM-dd HH:mm:ss") : "")</text></td>
+                    <td><text>@item.OriCheckInTime.ToString("yyyy-MM-dd HH:mm:ss")</text></td>
+                    <td><text>@(item.HasCheckOut ? item.OriCheckOutTime.ToString("yyyy-MM-dd HH:mm:ss") : "")</text></td>
+                    <td><text>@item.Reason1</text></td>
+                    <td><text>@item.Reason2</text></td>
+                    <td><text>@item.AbnormalCause</text></td>
+                </tr>
+            }
+            else
+            {
+                <tr class="danger">
+                    <td><text>@item.EmployeeID</text></td>
+                    <td><text>@item.Name</text></td>
+                    <td><text>@item.DepartmentName</text></td>
+
+                    <td><text>@item.CheckInTime.ToString("yyyy-MM-dd HH:mm:ss")</text></td>
+                    <td><text>@(item.HasCheckOut ? item.CheckOutTime.ToString("yyyy-MM-dd HH:mm:ss") : "")</text></td>
+                    <td><text>@item.OriCheckInTime.ToString("yyyy-MM-dd HH:mm:ss")</text></td>
+                    <td><text>@(item.HasCheckOut ? item.OriCheckOutTime.ToString("yyyy-MM-dd HH:mm:ss") : "")</text></td>
+                    <td><text>@item.Reason1</text></td>
+                    <td><text>@item.Reason2</text></td>
+                    <td><text>@item.AbnormalCause</text></td>
+                </tr>
+            }
+
+
+        }
+    </table>
+    <pager list="Model" options="@PagedListRenderOptions.TwitterBootstrapPager" asp-action="Index" asp-controller="Record" asp-all-route-data="ViewBag.RouteData"></pager>
+</div>
+
+@section Scripts
+{
+    <script>
+        function Export()
+        {
+            $("form").attr("action", "/Record/Export");
+        }
+        function Find()
+        {
+            $("form").attr("action", "/Record/Index");
+        }
+        function Check()
+        {
+            var StartDate = $("[name='StartDate']").val() || "";
+            var EndDate = $("[name='EndDate']").val() || "";
+
+            var result1 = StartDate.match(/((^((1[8-9]\d{2})|([2-9]\d{3}))(-)(10|12|0?[13578])(-)(3[01]|[12][0-9]|0?[1-9])$)|(^((1[8-9]\d{2})|([2-9]\d{3}))(-)(11|0?[469])(-)(30|[12][0-9]|0?[1-9])$)|(^((1[8-9]\d{2})|([2-9]\d{3}))(-)(0?2)(-)(2[0-8]|1[0-9]|0?[1-9])$)|(^([2468][048]00)(-)(0?2)(-)(29)$)|(^([3579][26]00)(-)(0?2)(-)(29)$)|(^([1][89][0][48])(-)(0?2)(-)(29)$)|(^([2-9][0-9][0][48])(-)(0?2)(-)(29)$)|(^([1][89][2468][048])(-)(0?2)(-)(29)$)|(^([2-9][0-9][2468][048])(-)(0?2)(-)(29)$)|(^([1][89][13579][26])(-)(0?2)(-)(29)$)|(^([2-9][0-9][13579][26])(-)(0?2)(-)(29)$))/);
+            var result2 = EndDate.match(/((^((1[8-9]\d{2})|([2-9]\d{3}))(-)(10|12|0?[13578])(-)(3[01]|[12][0-9]|0?[1-9])$)|(^((1[8-9]\d{2})|([2-9]\d{3}))(-)(11|0?[469])(-)(30|[12][0-9]|0?[1-9])$)|(^((1[8-9]\d{2})|([2-9]\d{3}))(-)(0?2)(-)(2[0-8]|1[0-9]|0?[1-9])$)|(^([2468][048]00)(-)(0?2)(-)(29)$)|(^([3579][26]00)(-)(0?2)(-)(29)$)|(^([1][89][0][48])(-)(0?2)(-)(29)$)|(^([2-9][0-9][0][48])(-)(0?2)(-)(29)$)|(^([1][89][2468][048])(-)(0?2)(-)(29)$)|(^([2-9][0-9][2468][048])(-)(0?2)(-)(29)$)|(^([1][89][13579][26])(-)(0?2)(-)(29)$)|(^([2-9][0-9][13579][26])(-)(0?2)(-)(29)$))/);
+            if ((StartDate != "" && result1 == null) || (EndDate != "" && result2 == null))
+            {
+                alert("日期不合法");
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+    </script>
+
+}

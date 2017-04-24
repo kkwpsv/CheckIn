@@ -18,7 +18,7 @@ namespace CheckIn.Manager.Controllers
         }
         public IActionResult Index(int page = 1)
         {
-            var list = RecordConfirmHelper.GetAbnormalRecords(context).AsQueryable().ToPagedList(page > 0 ? page : 1, 20);
+            var list = RecordHelper.GetAbnormalRecords(context).ToPagedList(page > 0 ? page : 1, 20).AddAbnormalCause();
             return View(list);
         }
         public IActionResult Confirm(int CheckInID = 0)

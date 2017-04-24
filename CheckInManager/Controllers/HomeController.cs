@@ -18,7 +18,7 @@ namespace CheckIn.Manager.Controllers
 
         public IActionResult Index()
         {
-            ViewData["AbnormalRecordCount"] = RecordConfirmHelper.GetAbnormalRecords(context).Count();
+            ViewData["AbnormalRecordCount"] = RecordHelper.GetAbnormalRecords(context).Count();
             return View();
         }
 

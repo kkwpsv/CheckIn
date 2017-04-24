@@ -8,7 +8,7 @@ using CheckIn.Common.Models;
 namespace CheckIn.Common.Migrations
 {
     [DbContext(typeof(CheckInContext))]
-    partial class CheckInContextModelSnapshot : ModelSnapshot
+    partial class CheckInContextModelSnapshot :ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {

@@ -9,6 +9,7 @@
     <RootNamespace>CheckIn.Manager</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="linhui.Npoi.Core" Version="1.0.6" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.1.0-beta1" />
     <PackageReference Include="Microsoft.AspNetCore" Version="1.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="1.1.1" />

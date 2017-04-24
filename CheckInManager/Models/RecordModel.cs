@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace CheckIn.Manager.Models
 {
-    public class AbnormalRecordModel
+    public class RecordModel
     {
         public int CheckInID
         {
@@ -13,6 +13,16 @@ namespace CheckIn.Manager.Models
             set;
         }
         public string EmployeeID
+        {
+            get;
+            set;
+        }
+        public int DepartmentID
+        {
+            get;
+            set;
+        }
+        public string DepartmentName
         {
             get;
             set;
@@ -58,6 +68,11 @@ namespace CheckIn.Manager.Models
             set;
         }
         public bool HasCheckOut
+        {
+            get;
+            set;
+        }
+        public bool IsNormal
         {
             get;
             set;
