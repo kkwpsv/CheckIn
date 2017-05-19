@@ -91,15 +91,16 @@ namespace CheckIn.Manager.Util
 
         private static void AutoConfirm(CheckInContext context)
         {
+
             var records = context.UserCheckInInfo.Where(x => x.HasConfirmed == false);
             foreach (var record in records)
             {
                 if (record.HasCheckOut == true && record.CheckInTime == record.OriCheckInTime && record.CheckOutTime == record.OriCheckOutTime && record.CheckOutTime - record.CheckInTime < new TimeSpan(12, 0, 0) && record.CheckOutTime - record.CheckInTime > new TimeSpan(8, 0, 0))
                 {
                     record.HasConfirmed = true;
-                }
-                context.SaveChanges();
+                }               
             }
+            context.SaveChanges();
         }
     }
 }
