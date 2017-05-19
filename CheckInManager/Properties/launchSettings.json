@@ -12,14 +12,14 @@
       "commandName": "IISExpress",
       "launchBrowser": true,
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "AspNetCore_ENVIRONMENT": "Development"
       }
     },
     "CheckInManager": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "AspNetCore_ENVIRONMENT": "Development"
       },
       "applicationUrl": "http://localhost:4512"
     }

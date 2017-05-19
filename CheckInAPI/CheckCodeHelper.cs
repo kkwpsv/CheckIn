@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Imaging;
+using System.DrawingCore;
+using System.DrawingCore.Imaging;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -43,7 +43,7 @@ namespace CheckIn.API
                 int cindex = rand.Next(colors.Length);
                 int findex = rand.Next(fonts.Length);
                 Font font = new Font(fonts[findex], 15, FontStyle.Bold);
-                Brush brush = new SolidBrush(colors[cindex]); 
+                Brush brush = new SolidBrush(colors[cindex]);
                 int ii = 4;
                 if ((i + 1) % 2 == 0)
                 {

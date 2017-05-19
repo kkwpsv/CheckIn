@@ -9,7 +9,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Serialization;
 using CheckIn.Common.Models;
-using MySQL.Data.EntityFrameworkCore.Extensions;
+using Microsoft.EntityFrameworkCore;
+
 
 namespace CheckIn.API
 {
@@ -35,7 +36,7 @@ namespace CheckIn.API
             {
                 options.SerializerSettings.ContractResolver = new DefaultContractResolver();
             });
-            services.AddDbContext<CheckInContext>(options => options.UseMySQL(Configuration.GetConnectionString("MySql")));
+            services.AddDbContext<CheckInContext>(options => options.UseMySql(Configuration.GetConnectionString("MySql")));
             services.AddSession();
 
         }

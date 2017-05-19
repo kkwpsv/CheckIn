@@ -38,6 +38,11 @@ namespace CheckIn.Common.Models
             get;
             set;
         }
+        public DbSet<NoticeInfo> NoticeInfo
+        {
+            get;
+            set;
+        }
 
     }
 }

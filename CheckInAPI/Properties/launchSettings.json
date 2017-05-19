@@ -13,14 +13,14 @@
       "launchBrowser": true,
       "launchUrl": "api/values",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "AspNetCore_ENVIRONMENT": "Development"
       }
     },
     "CheckIn": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "AspNetCore_ENVIRONMENT": "Development"
       },
       "applicationUrl": "http://localhost:20000"
     }

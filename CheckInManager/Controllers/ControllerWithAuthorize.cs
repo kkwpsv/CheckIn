@@ -20,6 +20,8 @@ namespace CheckIn.Manager.Controllers
 
         protected CheckInContext context;
 
+        protected UserInfo user;
+
         public ControllerWithAuthorize(CheckInContext context)
         {
             this.context = context;
@@ -31,7 +33,7 @@ namespace CheckIn.Manager.Controllers
             {
                 if (context.HttpContext.Session.TryGetValue("User", out byte[] data))
                 {
-                    var user = SessionHelper.BytesToObject<UserInfo>(data);
+                    this.user = SessionHelper.BytesToObject<UserInfo>(data);
                     if (user.Right >= NeedUserRight)
                     {
                         base.OnActionExecuting(context);

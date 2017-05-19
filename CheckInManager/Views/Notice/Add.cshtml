@@ -1,0 +1,26 @@
+﻿
+@{
+    ViewData["Title"] = "通知添加";
+}
+
+@model NoticeModel
+
+<div>
+    <h1 class="page-header">通知添加</h1>
+    <form asp-controller="Notice" asp-action="Add" method="Post">
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <div class="form-group">
+            <label for="name">标题</label>
+            <input type="text" class="form-control" asp-for="Title">
+        </div>
+        <div class="form-group">
+            <label for="name">内容</label>
+            <textarea asp-for="Content" class="form-control"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">添加</button>
+        <button type="reset" class="btn btn-primary">清空</button>
+    </form>
+
+</div>
+
+

@@ -11,33 +11,35 @@
 <div class="container">
     <h1 class="page-header">用户管理</h1>
     <button type="button" class="btn btn-success" onclick="window.location.href='/Users/Add'">添加用户</button>
-    <table class="table table-hover">
-        <thead>
-            <tr>
-                <th>姓名</th>
-                <th>工号</th>
-                <th>手机号</th>
-                <th>邮箱</th>
-                <th>部门</th>
-                <th>用户类型</th>
-                <th>操作</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
                 <tr>
-                    <td><text>@item.Name</text></td>
-                    <td><text>@item.EmployeeID</text></td>
-                    <td><text>@item.MobilephoneNumber</text></td>
-                    <td><text>@item.Email</text></td>
-                    <td><text>@(DepartmentName.ContainsKey(item.DepartmentID) ? DepartmentName[item.DepartmentID] : "未知部门")</text></td>
-                    <td><text>@(RightName.ContainsKey(item.Right) ? RightName[item.Right] : "未知类型")</text></td>
-                    <td><button type="button" class="btn btn-info" onclick="window.location.href='/Users/Edit?UserID=@item.UserID'">编辑</button><button type="button" class="btn btn-danger" onclick="Delete(@item.UserID,this)">删除</button></td>
+                    <th>姓名</th>
+                    <th>工号</th>
+                    <th>手机号</th>
+                    <th>邮箱</th>
+                    <th>部门</th>
+                    <th>用户类型</th>
+                    <th>操作</th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+            {
+                    <tr>
+                        <td><text>@item.Name</text></td>
+                        <td><text>@item.EmployeeID</text></td>
+                        <td><text>@item.MobilephoneNumber</text></td>
+                        <td><text>@item.Email</text></td>
+                        <td><text>@(DepartmentName.ContainsKey(item.DepartmentID) ? DepartmentName[item.DepartmentID] : "未知部门")</text></td>
+                        <td><text>@(RightName.ContainsKey(item.Right) ? RightName[item.Right] : "未知类型")</text></td>
+                        <td><button type="button" class="btn btn-info" onclick="window.location.href='/Users/Edit?UserID=@item.UserID'">编辑</button><button type="button" class="btn btn-danger" onclick="Delete(@item.UserID,this)">删除</button></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 </div>
 
 @section Scripts

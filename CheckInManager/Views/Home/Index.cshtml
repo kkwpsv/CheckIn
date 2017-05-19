@@ -2,15 +2,18 @@
     ViewData["Title"] = "管理后台";
 }
 
-<div>
-    <h1 class="page-header">欢迎来到签到系统管理后台</h1>
-    @if ((int)ViewData["AbnormalRecordCount"] > 0)
-    {
-        <div class="alert alert-warning" role="alert">
-            <strong>警告:</strong>
-            有<text>@ViewData["AbnormalRecordCount"]</text>条异常签到记录未确认
-            <a class="alert-link" asp-controller="AbnormalRecord" asp-action="Index">点击此处查看</a>
-        </div>
-    }
 
+<div class="jumbotron" style="margin-top:10px">
+    <h1>欢迎来到签到系统管理后台</h1>
 </div>
+
+@if ((int)ViewData["AbnormalRecordCount"] > 0)
+{
+    <div class="alert alert-warning" role="alert">
+        <strong>警告:</strong>
+        有<text>@ViewData["AbnormalRecordCount"]</text>条异常签到记录未确认
+        <a class="alert-link" asp-controller="AbnormalRecord" asp-action="Index">点击此处查看</a>
+    </div>
+}
+
+

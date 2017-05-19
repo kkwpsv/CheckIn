@@ -1,18 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using CheckIn.Common.Models;
 using System.IO;
 using System.Text;
-using System.Text.RegularExpressions;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using CheckIn.API;
 using CheckIn.Common.Util;
 using Microsoft.AspNetCore.Http;
 using System.Net;
+using Lsj.Util.Core.Text;
 
 namespace CheckIn.API.Controllers
 {
@@ -31,7 +27,7 @@ namespace CheckIn.API.Controllers
         {
             try
             {
-                if (String.IsNullOrEmpty(username) || String.IsNullOrEmpty(password) || String.IsNullOrEmpty(deviceid))
+                if (username.IsNullOrEmpty() || password.IsNullOrEmpty() || deviceid.IsNullOrEmpty())
                 {
                     return new { result = -1, message = "内部错误" };
                 }
@@ -78,7 +74,7 @@ namespace CheckIn.API.Controllers
         {
             try
             {
-                if (String.IsNullOrEmpty(username))
+                if (username.IsNullOrEmpty())
                 {
                     return new { result = -1, message = "内部错误" };
                 }
@@ -101,11 +97,11 @@ namespace CheckIn.API.Controllers
         {
             try
             {
-                if (String.IsNullOrEmpty(checkcode) || String.IsNullOrEmpty(phonenumber))
+                if (checkcode.IsNullOrEmpty() || phonenumber.IsNullOrEmpty())
                 {
                     return new { result = -1, message = "内部错误" };
                 }
-                if (HttpContext.Session.TryGetValue("checkcode", out var value) && Encoding.ASCII.GetString(value) == checkcode.ToLower())
+                if (HttpContext.Session.TryGetValue("checkcode", out var value) && value.ConvertFromBytes(Encoding.ASCII) == checkcode.ToLower())
                 {
                     var users = context.UserInfo.Where(x => (x.MobilephoneNumber == phonenumber));
                     if (users.Count() == 0)
@@ -157,7 +153,7 @@ namespace CheckIn.API.Controllers
         {
             try
             {
-                if (String.IsNullOrEmpty(code) || String.IsNullOrEmpty(newpass))
+                if (code.IsNullOrEmpty() || newpass.IsNullOrEmpty())
                 {
                     return new { result = -1, message = "内部错误" };
                 }
@@ -195,7 +191,7 @@ namespace CheckIn.API.Controllers
         {
             try
             {
-                if (String.IsNullOrEmpty(username) || String.IsNullOrEmpty(token) || String.IsNullOrEmpty(deviceid))
+                if (username.IsNullOrEmpty() || token.IsNullOrEmpty() || deviceid.IsNullOrEmpty())
                 {
                     return new { result = -1, message = "内部错误" };
                 }
@@ -264,7 +260,7 @@ namespace CheckIn.API.Controllers
         {
             try
             {
-                if (String.IsNullOrEmpty(employeeid) || String.IsNullOrEmpty(name) || String.IsNullOrEmpty(phonenumber) || String.IsNullOrEmpty(email) || context.DepartmentInfo.Where(x => x.DepartmentID == departmentid).Count() == 0)
+                if (employeeid.IsNullOrEmpty() || name.IsNullOrEmpty() || phonenumber.IsNullOrEmpty() || email.IsNullOrEmpty() || context.DepartmentInfo.Where(x => x.DepartmentID == departmentid).Count() == 0)
                 {
                     return new { result = -1, message = "内部错误" };
                 }

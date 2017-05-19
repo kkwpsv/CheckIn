@@ -21,19 +21,19 @@ namespace CheckIn.Manager.Controllers
             var list = RecordHelper.GetAbnormalRecords(context).ToPagedList(page > 0 ? page : 1, 20).AddAbnormalCause();
             return View(list);
         }
-        public IActionResult Confirm(int CheckInID = 0)
+        public IActionResult Confirm(int? CheckInID)
         {
-            var item = context.UserCheckInInfo.Where(x => x.CheckInID == CheckInID).FirstOrDefault();
-            if (item != null)
+            if (CheckInID.HasValue)
             {
-                context.UserCheckInInfo.Remove(item);
-                context.SaveChanges();
-                return Content("ok");
+                var item = context.UserCheckInInfo.Where(x => x.CheckInID == CheckInID).FirstOrDefault();
+                if (item != null)
+                {
+                    context.UserCheckInInfo.Remove(item);
+                    context.SaveChanges();
+                    return Content("ok");
+                }
             }
-            else
-            {
-                return Content("error");
-            }
+            return Content("error");
         }
     }
 }

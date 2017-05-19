@@ -8,13 +8,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using CheckIn.Common.Models;
-using MySQL.Data.EntityFrameworkCore.Extensions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.EntityFrameworkCore;
 
 namespace CheckIn.Manager
 {
@@ -37,7 +37,7 @@ namespace CheckIn.Manager
         {
             // Add framework services.
             services.AddMvc();
-            services.AddDbContext<CheckInContext>(options => options.UseMySQL(Configuration.GetConnectionString("MySql")));
+            services.AddDbContext<CheckInContext>(options => options.UseMySql(Configuration.GetConnectionString("MySql")));
             services.AddSession();
             services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
         }

@@ -12,6 +12,7 @@ using System.Net.Http.Headers;
 using CheckIn.API;
 using CheckIn.Common.Util;
 using System.Net;
+using Lsj.Util.Core.Text;
 
 namespace CheckIn.API.Controllers
 {
@@ -92,10 +93,14 @@ namespace CheckIn.API.Controllers
         }
 
         [HttpGet]
-        public dynamic AutoCheckIn(int hour, int minute, int second)
+        public dynamic AutoCheckIn(int? hour, int? minute, int? second)
         {
             try
             {
+                if (!hour.HasValue || !minute.HasValue || !second.HasValue)
+                {
+                    return new { result = -1, message = "内部错误" };
+                }
                 if (HttpContext.Session.TryGetValue("userid", out var value))
                 {
                     var userid = (value[0] << 24) + (value[1] << 16) + (value[2] << 8) + value[3];
@@ -109,8 +114,8 @@ namespace CheckIn.API.Controllers
                         checkininfo.Add(new UserCheckInInfo
                         {
                             UserID = userid,
-                            CheckInTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, hour, minute, second),
-                            OriCheckInTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, hour, minute, second),
+                            CheckInTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, hour.Value, minute.Value, second.Value),
+                            OriCheckInTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, hour.Value, minute.Value, second.Value),
                             HasCheckOut = false,
                         });
                         context.SaveChanges();
@@ -127,10 +132,14 @@ namespace CheckIn.API.Controllers
 
 
         [HttpGet]
-        public dynamic AutoCheckOut(int checkinid, int hour, int minute, int second)
+        public dynamic AutoCheckOut(int? checkinid, int? hour, int? minute, int? second)
         {
             try
             {
+                if (!checkinid.HasValue || !hour.HasValue || !minute.HasValue || !second.HasValue)
+                {
+                    return new { result = -1, message = "内部错误" };
+                }
                 if (HttpContext.Session.TryGetValue("userid", out var value))
                 {
                     var userid = (value[0] << 24) + (value[1] << 16) + (value[2] << 8) + value[3];
@@ -143,8 +152,8 @@ namespace CheckIn.API.Controllers
                     else
                     {
                         tocheckout.HasCheckOut = true;
-                        tocheckout.CheckOutTime = new DateTime(tocheckout.CheckInTime.Year, tocheckout.CheckInTime.Month, tocheckout.CheckInTime.Day, hour, minute, second);
-                        tocheckout.OriCheckOutTime = new DateTime(tocheckout.CheckInTime.Year, tocheckout.CheckInTime.Month, tocheckout.CheckInTime.Day, hour, minute, second);
+                        tocheckout.CheckOutTime = new DateTime(tocheckout.CheckInTime.Year, tocheckout.CheckInTime.Month, tocheckout.CheckInTime.Day, hour.Value, minute.Value, second.Value);
+                        tocheckout.OriCheckOutTime = new DateTime(tocheckout.CheckInTime.Year, tocheckout.CheckInTime.Month, tocheckout.CheckInTime.Day, hour.Value, minute.Value, second.Value);
                         context.SaveChanges();
                         return new { result = 1 };
                     }
@@ -158,10 +167,14 @@ namespace CheckIn.API.Controllers
         }
 
         [HttpGet]
-        public dynamic ModifyCheckIn(int checkinid, int hour, int minute, int second, string reason)
+        public dynamic ModifyCheckIn(int? checkinid, int? hour, int? minute, int? second, string reason)
         {
             try
             {
+                if (!checkinid.HasValue || !hour.HasValue || !minute.HasValue || !second.HasValue || reason.IsNullOrEmpty())
+                {
+                    return new { result = -1, message = "内部错误" };
+                }
                 if (HttpContext.Session.TryGetValue("userid", out var value))
                 {
                     var userid = (value[0] << 24) + (value[1] << 16) + (value[2] << 8) + value[3];
@@ -174,7 +187,7 @@ namespace CheckIn.API.Controllers
                     else
                     {
                         //tomodify.HasCheckOut = true;
-                        tomodify.CheckInTime = new DateTime(tomodify.OriCheckInTime.Year, tomodify.OriCheckInTime.Month, tomodify.OriCheckInTime.Day, hour, minute, second);
+                        tomodify.CheckInTime = new DateTime(tomodify.OriCheckInTime.Year, tomodify.OriCheckInTime.Month, tomodify.OriCheckInTime.Day, hour.Value, minute.Value, second.Value);
                         tomodify.Reason1 = WebUtility.UrlDecode(reason);
                         context.SaveChanges();
                         return new { result = 1 };
@@ -189,10 +202,14 @@ namespace CheckIn.API.Controllers
         }
 
         [HttpGet]
-        public dynamic ModifyCheckOut(int checkinid, int hour, int minute, int second, string reason)
+        public dynamic ModifyCheckOut(int? checkinid, int? hour, int? minute, int? second, string reason)
         {
             try
             {
+                if (!checkinid.HasValue || !hour.HasValue || !minute.HasValue || !second.HasValue || reason.IsNullOrEmpty())
+                {
+                    return new { result = -1, message = "内部错误" };
+                }
                 if (HttpContext.Session.TryGetValue("userid", out var value))
                 {
                     var userid = (value[0] << 24) + (value[1] << 16) + (value[2] << 8) + value[3];
@@ -205,7 +222,7 @@ namespace CheckIn.API.Controllers
                     else
                     {
                         tomodify.HasCheckOut = true;
-                        tomodify.CheckOutTime = new DateTime(tomodify.OriCheckOutTime.Year, tomodify.OriCheckOutTime.Month, tomodify.OriCheckOutTime.Day, hour, minute, second);
+                        tomodify.CheckOutTime = new DateTime(tomodify.OriCheckOutTime.Year, tomodify.OriCheckOutTime.Month, tomodify.OriCheckOutTime.Day, hour.Value, minute.Value, second.Value);
                         tomodify.Reason2 = WebUtility.UrlDecode(reason);
                         context.SaveChanges();
                         return new { result = 1 };
@@ -253,10 +270,14 @@ namespace CheckIn.API.Controllers
         }
 
         [HttpGet]
-        public dynamic GetMonthData(int year, int month)
+        public dynamic GetMonthData(int? year, int? month)
         {
             try
             {
+                if (!year.HasValue || !month.HasValue)
+                {
+                    return new { result = -1, message = "内部错误" };
+                }
                 if (HttpContext.Session.TryGetValue("userid", out var value))
                 {
                     var userid = (value[0] << 24) + (value[1] << 16) + (value[2] << 8) + value[3];

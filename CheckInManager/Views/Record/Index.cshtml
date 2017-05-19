@@ -10,79 +10,84 @@
 
 <div>
     <h1 class="page-header">记录查询</h1>
-    <form class="form-inline" asp-action="Index" asp-controller="Record" method="get" onsubmit="return Check()">
-        <div class="form-group">
+    <div class="sub-header">
+        <form class="form-inline" asp-action="Index" asp-controller="Record" method="get" onsubmit="return Check()">
             <div class="form-group">
-                <label>员工号</label>
-                <input type="text" class="form-control" name="EmployeeID" />
+                <div class="form-group">
+                    <label>员工号</label>
+                    <input type="text" class="form-control" name="EmployeeID" />
+                </div>
+                <div class="form-group">
+                    <label>部门</label>
+                    <select asp-items="ViewBag.SelectList" class="form-control" name="DepartmentID"></select>
+                </div>
+                <div class="form-group">
+                    <label>起始日期</label>
+                    <input type="date" class="form-control" name="StartDate" placeholder="2017-01-01" />
+                </div>
+                <div class="form-group">
+                    <label>结束日期</label>
+                    <input type="date" class="form-control" name="EndDate" placeholder="2017-01-01" />
+                </div>
+                <button type="submit" class="btn btn-default" onclick="Find()">查找</button>
+                <button type="submit" class="btn btn-default" onclick="Export()">导出</button>
             </div>
-            <div class="form-group">
-                <label>部门</label>
-                <select asp-items="ViewBag.SelectList" class="form-control" name="DepartmentID"></select>
-            </div>
-            <div class="form-group">
-                <label>起始日期</label>
-                <input type="date" class="form-control" name="StartDate" placeholder="2017-01-01" />
-            </div>
-            <div class="form-group">
-                <label>结束日期</label>
-                <input type="date" class="form-control" name="EndDate" placeholder="2017-01-01" />
-            </div>
-            <button type="submit" class="btn btn-default" onclick="Find()">查找</button>
-            <button type="submit" class="btn btn-default" onclick="Export()">导出</button>
-        </div>
-    </form>
-    <table class="table table-hover">
-        <tr>
-            <th>工号</th>
-            <th>姓名</th>
-            <th>部门</th>
-            <th>签到时间</th>
-            <th>签出时间</th>
-            <th>原始签到时间</th>
-            <th>原始签出时间</th>
-            <th>签到时间修改原因</th>
-            <th>签出时间修改原因</th>
-            <th>异常原因</th>
-        </tr>
-        @foreach (var item in Model)
-        {
-            @if (item.IsNormal)
+        </form>
+    </div>
+    <div class="table-responsive" style="margin-top:10px">
+        <table class="table table-hover">
+            <tr>
+                <th>工号</th>
+                <th>姓名</th>
+                <th>部门</th>
+                <th>签到时间</th>
+                <th>签出时间</th>
+                <th>原始签到时间</th>
+                <th>原始签出时间</th>
+                <th>签到时间修改原因</th>
+                <th>签出时间修改原因</th>
+                <th>异常原因</th>
+            </tr>
+            @foreach (var item in Model)
             {
-                <tr class="success">
-                    <td><text>@item.EmployeeID</text></td>
-                    <td><text>@item.Name</text></td>
-                    <td><text>@item.DepartmentName</text></td>
-                    <td><text>@item.CheckInTime.ToString("yyyy-MM-dd HH:mm:ss")</text></td>
-                    <td><text>@(item.HasCheckOut ? item.CheckOutTime.ToString("yyyy-MM-dd HH:mm:ss") : "")</text></td>
-                    <td><text>@item.OriCheckInTime.ToString("yyyy-MM-dd HH:mm:ss")</text></td>
-                    <td><text>@(item.HasCheckOut ? item.OriCheckOutTime.ToString("yyyy-MM-dd HH:mm:ss") : "")</text></td>
-                    <td><text>@item.Reason1</text></td>
-                    <td><text>@item.Reason2</text></td>
-                    <td><text>@item.AbnormalCause</text></td>
-                </tr>
+                @if (item.IsNormal)
+                {
+                    <tr class="success">
+                        <td><text>@item.EmployeeID</text></td>
+                        <td><text>@item.Name</text></td>
+                        <td><text>@item.DepartmentName</text></td>
+                        <td><text>@item.CheckInTime.ToString("yyyy-MM-dd HH:mm:ss")</text></td>
+                        <td><text>@(item.HasCheckOut ? item.CheckOutTime.ToString("yyyy-MM-dd HH:mm:ss") : "")</text></td>
+                        <td><text>@item.OriCheckInTime.ToString("yyyy-MM-dd HH:mm:ss")</text></td>
+                        <td><text>@(item.HasCheckOut ? item.OriCheckOutTime.ToString("yyyy-MM-dd HH:mm:ss") : "")</text></td>
+                        <td><text>@item.Reason1</text></td>
+                        <td><text>@item.Reason2</text></td>
+                        <td><text>@item.AbnormalCause</text></td>
+                    </tr>
+                }
+                else
+                {
+                    <tr class="danger">
+                        <td><text>@item.EmployeeID</text></td>
+                        <td><text>@item.Name</text></td>
+                        <td><text>@item.DepartmentName</text></td>
+
+                        <td><text>@item.CheckInTime.ToString("yyyy-MM-dd HH:mm:ss")</text></td>
+                        <td><text>@(item.HasCheckOut ? item.CheckOutTime.ToString("yyyy-MM-dd HH:mm:ss") : "")</text></td>
+                        <td><text>@item.OriCheckInTime.ToString("yyyy-MM-dd HH:mm:ss")</text></td>
+                        <td><text>@(item.HasCheckOut ? item.OriCheckOutTime.ToString("yyyy-MM-dd HH:mm:ss") : "")</text></td>
+                        <td><text>@item.Reason1</text></td>
+                        <td><text>@item.Reason2</text></td>
+                        <td><text>@item.AbnormalCause</text></td>
+                    </tr>
+                }
+
+
             }
-            else
-            {
-                <tr class="danger">
-                    <td><text>@item.EmployeeID</text></td>
-                    <td><text>@item.Name</text></td>
-                    <td><text>@item.DepartmentName</text></td>
-
-                    <td><text>@item.CheckInTime.ToString("yyyy-MM-dd HH:mm:ss")</text></td>
-                    <td><text>@(item.HasCheckOut ? item.CheckOutTime.ToString("yyyy-MM-dd HH:mm:ss") : "")</text></td>
-                    <td><text>@item.OriCheckInTime.ToString("yyyy-MM-dd HH:mm:ss")</text></td>
-                    <td><text>@(item.HasCheckOut ? item.OriCheckOutTime.ToString("yyyy-MM-dd HH:mm:ss") : "")</text></td>
-                    <td><text>@item.Reason1</text></td>
-                    <td><text>@item.Reason2</text></td>
-                    <td><text>@item.AbnormalCause</text></td>
-                </tr>
-            }
-
-
-        }
-    </table>
+        </table>
+    </div>
     <pager list="Model" options="@PagedListRenderOptions.TwitterBootstrapPager" asp-action="Index" asp-controller="Record" asp-all-route-data="ViewBag.RouteData"></pager>
+
 </div>
 
 @section Scripts

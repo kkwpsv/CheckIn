@@ -29,19 +29,21 @@ namespace CheckIn.Manager.Controllers
             return View(list);
         }
         [HttpGet]
-        public IActionResult Delete(int LocationID = 0)
+        public IActionResult Delete(int? LocationID)
         {
-            var item = context.LocationInfo.Where(x => x.LocationID == LocationID).FirstOrDefault();
-            if (item != null)
+            if (LocationID.HasValue)
             {
-                context.LocationInfo.Remove(item);
-                context.SaveChanges();
-                return Content("ok");
+                var item = context.LocationInfo.Where(x => x.LocationID == LocationID).FirstOrDefault();
+                if (item != null)
+                {
+                    context.LocationInfo.Remove(item);
+                    context.SaveChanges();
+                    return Content("ok");
+                }
             }
-            else
-            {
-                return Content("error");
-            }
+
+            return Content("error");
+
         }
         [HttpGet]
         public IActionResult Edit(int LocationID = 0)

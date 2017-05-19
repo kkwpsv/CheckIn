@@ -1,0 +1,71 @@
+@{
+    ViewData["Title"] = "通知管理";
+}
+@using CheckIn.Common.Models
+@using PagedList.Core
+@using PagedList.Core.Mvc
+
+
+
+@model IPagedList<NoticeModel>
+
+<div class="container">
+    <h1 class="page-header">通知管理</h1>
+    <button type="button" class="btn btn-success" onclick="window.location.href='/Notice/Add'">添加通知</button>
+
+    <div class="table-responsive">
+        <table class="table table-hover">
+
+            <thead>
+                <tr>
+                    <th>通知ID</th>
+                    <th>作者</th>
+                    <th>标题</th>
+                    <th>内容</th>
+                    <th>时间</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td><text>@item.NoticeID</text></td>
+                        <td><text>@item.Author</text></td>
+                        <td><text>@item.Title</text></td>
+                        <td><text>@item.Content</text></td>
+                        <td><text>@item.Time</text></td>
+                        <td><button type="button" class="btn btn-danger" onclick="Delete(@item.NoticeID,this)">删除</button></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <pager list="Model" options="@PagedListRenderOptions.TwitterBootstrapPager" asp-action="Index" asp-controller="Location"></pager>
+</div>
+
+
+
+
+@section Scripts
+{
+    <script>
+        function Delete(id, button)
+        {
+            $.get("/Notice/Delete?NoticeID=" + id, function (result)
+            {
+                if (result == "ok")
+                {
+                    alert("删除成功");
+                    var todel = button.parentNode.parentNode;
+                    todel.parentNode.removeChild(todel);
+                }
+                else
+                {
+                    alert("失败，请重试")
+                }
+            })
+        }
+    </script>
+
+}

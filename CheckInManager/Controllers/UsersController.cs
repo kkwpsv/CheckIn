@@ -38,19 +38,19 @@ namespace CheckIn.Manager.Controllers
             return View(list);
         }
         [HttpGet]
-        public IActionResult Delete(int UserID = 0)
+        public IActionResult Delete(int? UserID)
         {
-            var item = context.UserInfo.Where(x => x.UserID == UserID).FirstOrDefault();
-            if (item != null)
+            if (UserID.HasValue)
             {
-                context.UserInfo.Remove(item);
-                context.SaveChanges();
-                return Content("ok");
+                var item = context.UserInfo.Where(x => x.UserID == UserID).FirstOrDefault();
+                if (item != null)
+                {
+                    context.UserInfo.Remove(item);
+                    context.SaveChanges();
+                    return Content("ok");
+                }
             }
-            else
-            {
-                return Content("error");
-            }
+            return Content("error");
         }
 
         [HttpGet]
