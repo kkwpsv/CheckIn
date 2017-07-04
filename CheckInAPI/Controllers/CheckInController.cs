@@ -12,7 +12,7 @@ using System.Net.Http.Headers;
 using CheckIn.API;
 using CheckIn.Common.Util;
 using System.Net;
-using Lsj.Util.Core.Text;
+using Lsj.Util.Text;
 
 namespace CheckIn.API.Controllers
 {

@@ -10,6 +10,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="linhui.Npoi.Core" Version="1.0.6" />
+    <PackageReference Include="Lsj.Util.Core" Version="1.0.3" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.1.0-beta1" />
     <PackageReference Include="Microsoft.AspNetCore" Version="1.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="1.1.2" />
@@ -31,7 +32,6 @@
     <DotNetCliToolReference Include="Microsoft.AspNetCore.Razor.Tools" Version="1.1.0-preview4-final" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\lsjutilcsharp\Lsj.Util\Lsj.Util.Core.csproj" />
     <ProjectReference Include="..\CheckInCommon\CheckInCommon.csproj" />
   </ItemGroup>
 
