@@ -8,7 +8,7 @@ using System.Text;
 using CheckIn.Common.Util;
 using Microsoft.AspNetCore.Http;
 using System.Net;
-using Lsj.Util.Core.Text;
+using Lsj.Util.Text;
 
 namespace CheckIn.API.Controllers
 {

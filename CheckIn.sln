@@ -1,15 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.6
+VisualStudioVersion = 15.0.26430.14
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CheckInAPI", "CheckInAPI\CheckInAPI.csproj", "{00E2FE98-D980-4C13-8DC4-AA3B8F2D2B1B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CheckInAPI", "CheckInAPI\CheckInAPI.csproj", "{00E2FE98-D980-4C13-8DC4-AA3B8F2D2B1B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CheckInCommon", "CheckInCommon\CheckInCommon.csproj", "{C02DA815-E9FA-426C-9F6E-5780FA548BB8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CheckInCommon", "CheckInCommon\CheckInCommon.csproj", "{C02DA815-E9FA-426C-9F6E-5780FA548BB8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CheckInManager", "CheckInManager\CheckInManager.csproj", "{FEC7A3E5-D870-4035-9328-9181A35B6CB6}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lsj.Util.Core", "..\lsjutilcsharp\Lsj.Util\Lsj.Util.Core.csproj", "{C6FC9618-6BB3-4A1C-BFE7-745FD8B47C3D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CheckInManager", "CheckInManager\CheckInManager.csproj", "{FEC7A3E5-D870-4035-9328-9181A35B6CB6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,14 +41,6 @@ Global
 		{FEC7A3E5-D870-4035-9328-9181A35B6CB6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FEC7A3E5-D870-4035-9328-9181A35B6CB6}.Release|x64.ActiveCfg = Release|Any CPU
 		{FEC7A3E5-D870-4035-9328-9181A35B6CB6}.Release|x64.Build.0 = Release|Any CPU
-		{C6FC9618-6BB3-4A1C-BFE7-745FD8B47C3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C6FC9618-6BB3-4A1C-BFE7-745FD8B47C3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C6FC9618-6BB3-4A1C-BFE7-745FD8B47C3D}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{C6FC9618-6BB3-4A1C-BFE7-745FD8B47C3D}.Debug|x64.Build.0 = Debug|Any CPU
-		{C6FC9618-6BB3-4A1C-BFE7-745FD8B47C3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C6FC9618-6BB3-4A1C-BFE7-745FD8B47C3D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C6FC9618-6BB3-4A1C-BFE7-745FD8B47C3D}.Release|x64.ActiveCfg = Release|Any CPU
-		{C6FC9618-6BB3-4A1C-BFE7-745FD8B47C3D}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
